@@ -1,1 +1,73 @@
 /* You can add global styles to this file, and also import other style files */
+
+/* You can add global styles to this file, and also import other style files */
+
+/* @import '~@angular/material/prebuilt-themes/indigo-pink.css'; */
+
+/*@import "../node_modules/@angular/material/prebuilt-themes/indigo-pink.css";*/
+
+/* @import '~https://fonts.googleapis.com/icon?family=Material+Icons'; */
+
+/*@import "~https://unpkg.com/bootstrap@3.3.7/dist/css/bootstrap.min.css";*/
+
+/* html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; } */
+
+body {
+  margin: 0;
+  font-family: Roboto, sans-serif;
+}
+
+
+chf {
+  text-align: center;
+}
+
+mat-card {
+  max-width: 610px;
+  /*max-width: 33.3%;*/
+  margin: 20px;
+  /*margin: 6em auto;*/
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+
+.mat-card-header {
+  text-align: center;
+}
+
+.mat-card-header-text {
+  text-align: center;
+  width: 100%;
+}
+
+mat-toolbar-row {
+  justify-content: space-between;
+  margin: 30px;
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.done {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  color: white;
+}
+
+.myspan {
+  text-align: center;
+}
+
+.map-mat-card {
+  /*max-width: 500px;*/
+  max-width: 80%;
+  margin: 10px;
+  /*margin: 6em auto;*/
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+}
