@@ -1,0 +1,219 @@
+mat-sidenav-layout.m2app-dark {
+  background: black;
+}
+
+.mat-card-header-text {
+  width: 100%;
+}
+
+.mat-icon-button {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+}
+
+.h1 {
+  padding: 20px;
+  position: relative;
+  top: 17%;
+}
+
+.mat-error {
+ color: red;
+}
+.errorMessage {
+ color: red;
+}
+.errorMessageSmall {
+ color: red;
+ font-weight: 8px;
+}
+.messageHighlightRed {
+  color: red;
+}
+.messageHighlightGreen {
+  color: rgb(72, 207, 72);
+}
+.mat-toolbar-row {
+  justify-content: space-between;
+  margin: 30px;
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+::ng-deep .mat-card-title {
+  text-align: center;
+  margin: 0px;
+}
+
+mat-toolbar {
+  width: 100%;
+  height: 170px;
+  background-color: #01426A;
+  color: #78AA00;
+  display: block;
+}
+
+.logo {
+      width: 250px;
+      height: 102px;
+}
+
+.app-content {
+  padding: 20px;
+}
+
+.app-content mat-card {
+  margin: 20px;
+}
+
+.app-sidenav {
+  padding: 10px;
+  min-width: 100px;
+}
+
+.app-content mat-checkbox {
+  margin: 10px;
+}
+
+.app-toolbar-filler {
+  flex: 1 1 auto;
+}
+
+.app-toolbar-menu {
+  padding: 0 14px 0 14px;
+  color: white;
+}
+
+.app-icon-button {
+  box-shadow: none;
+  user-select: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  filter: none;
+  font-weight: normal;
+  height: auto;
+  line-height: inherit;
+  margin: 0;
+  min-width: 0;
+  padding: 0;
+  text-align: left;
+  text-decoration: none;
+  float: right;
+}
+
+.app-action {
+  display: inline-block;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+}
+
+.app-spinner {
+  height: 30px;
+  width: 30px;
+  display: inline-block;
+}
+
+.app-input-icon {
+  font-size: 16px;
+}
+
+.app-list {
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  width: 350px;
+  margin: 20px;
+}
+
+.app-progress {
+  margin: 2em auto;
+}
+
+.wider {
+  width: 400px;
+}
+
+.wide {
+  width: 200px;
+}
+
+.example-full-width {
+  width: 400px;
+}
+
+/* You can add global styles to this file, and also import other style files */
+
+/* You can add global styles to this file, and also import other style files */
+
+/* @import '~@angular/material/prebuilt-themes/indigo-pink.css'; */
+
+/*@import "../node_modules/@angular/material/prebuilt-themes/indigo-pink.css";*/
+
+/* @import '~https://fonts.googleapis.com/icon?family=Material+Icons'; */
+
+/*@import "~https://unpkg.com/bootstrap@3.3.7/dist/css/bootstrap.min.css";*/
+
+/* html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; } */
+
+body {
+  margin: 0;
+  font-family: Roboto, sans-serif;
+}
+
+
+chf {
+  text-align: center;
+}
+
+mat-card {
+  max-width: 610px;
+  /*max-width: 33.3%;*/
+  margin: 20px;
+  /*margin: 6em auto;*/
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+
+.mat-card-header {
+  text-align: center;
+}
+
+.mat-card-header-text {
+  text-align: center;
+  width: 100%;
+}
+
+mat-toolbar-row {
+  justify-content: space-between;
+  margin: 30px;
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.done {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  color: white;
+}
+
+.myspan {
+  text-align: center;
+}
+
+.map-mat-card {
+  /*max-width: 500px;*/
+  max-width: 80%;
+  margin: 10px;
+  /*margin: 6em auto;*/
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+

@@ -1,0 +1,249 @@
+<div style="text-align: center">
+  <mat-toolbar>
+    <a href="http://www.raleighnc.gov/" style="padding-left: 50px">
+      <img
+        alt="City of Raleigh Logo"
+        class="logo"
+        src="./assets/Raleigh-Logo-Horiz-white.png"
+      />
+    </a>
+
+    <h1>Yard Waste Services</h1>
+  </mat-toolbar>
+  <h4>
+    By opting out of the yard waste cart delivery, you acknowledge that you will
+    not receive a 95-gallon yard waste cart. <br />You will still be eligible
+    for curbside yard waste service via biodegradable bags and bundles.<br />
+    If you have questions or need assistance with this form, please contact us
+    at <a href="mailto:sws@raleighnc.gov">sws@raleighnc.gov</a>.
+  </h4>
+  <table cellpadding="2" cellspacing="2" width="100%" border="0">
+    <tr>
+      <td width="42%">
+        <span *ngIf="gisObjectId > 0" class="messageHighlightGreen"
+          ><b>Your 'Yard Waste Bin OPT-OUT' request has been taken.</b>
+        </span>
+        <span class="errorMessageSmall" style="font-size: small"
+          ><br />{{ addressNotFoundMessage }}</span
+        >
+        <ng-container>
+          <mat-card style="float: center">
+            <mat-card-content>
+              <form
+                class="example-form"
+                [formGroup]="usersForm"
+                novalidate
+                (ngSubmit)="save(usersForm.value, usersForm.valid)"
+                autocomplete="off"
+              >
+                <h5>
+                  Enter the address that would like to opt out of receiving the
+                  95-gallon yard waste cart
+                </h5>
+                <mat-form-field class="example-full-width">
+                  <input
+                    matInput
+                    class="wider"
+                    maxlength="150"
+                    placeholder="Enter Your Address"
+                    [matAutocomplete]="auto"
+                    formControlName="addressInput"
+                    (focusout)="onFocusOutEvent($event)"
+                    oninput="this.value = this.value.toUpperCase()"
+                  />
+                  <mat-error
+                    *ngIf="
+                      usersForm.controls.addressInput.hasError('required') &&
+                      (usersForm.get('addressInput').dirty ||
+                        usersForm.get('addressInput').touched)
+                    "
+                  >
+                    Please Enter an Address Within Raleigh City Limits
+                  </mat-error>
+                  <mat-error
+                    *ngIf="
+                      usersForm.controls.addressInput.hasError('maxlength')
+                    "
+                  >
+                    Maximum Length is 150 Characters
+                  </mat-error>
+                </mat-form-field>
+
+                <!-- <span *ngIf="addressNotFound && day">Your address was not found. You can still continue to submit a
+                    service request.</span> -->
+                <span class="errorMessage"
+                  ><br />{{ addressInValidMessage }}<br />{{
+                    addressInValidMessageCC
+                  }}</span
+                >
+                <p>
+                  <mat-autocomplete
+                    autoActiveFirstOption
+                    #auto="matAutocomplete"
+                    [displayWith]="displayFn.bind(this)"
+                  >
+                    <mat-option *ngIf="isLoading" class="is-loading">
+                      <mat-spinner diameter="40"></mat-spinner>
+                    </mat-option>
+                    <ng-container *ngIf="!isLoading">
+                      <mat-option
+                        *ngFor="let suggest of suggestions"
+                        [value]="suggest"
+                      >
+                        <!-- <span>{{ suggest.text | titlecase }}</span> -->
+                        <span>{{ suggest.text }}</span>
+                      </mat-option>
+                      <!-- <mat-option *ngFor="let address of filteredAddresses" [value]="address">
+                          <span>{{ address.attributes.ADDRESS | titlecase }}</span>
+                        </mat-option> -->
+                    </ng-container>
+                  </mat-autocomplete>
+                </p>
+                <p>
+                  <mat-form-field class="wide">
+                    <input
+                      matInput
+                      type="firstname"
+                      maxlength="50"
+                      placeholder="Enter Your First Name"
+                      formControlName="callerFirstName"
+                    />
+                    <mat-error
+                      *ngIf="
+                        usersForm.controls.callerFirstName.hasError('pattern')
+                      "
+                    >
+                      Please Enter Your First Name
+                    </mat-error>
+                    <mat-error
+                      *ngIf="
+                        usersForm.controls.callerFirstName.hasError('required')
+                      "
+                    >
+                      First Name is Required
+                    </mat-error>
+                  </mat-form-field>
+                  &nbsp;&nbsp;
+                  <mat-form-field class="wide">
+                    <input
+                      matInput
+                      type="lastname"
+                      maxlength="50"
+                      placeholder="Enter Your Last Name"
+                      formControlName="callerLastName"
+                    />
+                    <mat-error
+                      *ngIf="
+                        usersForm.controls.callerLastName.hasError('pattern')
+                      "
+                    >
+                      Please Enter Your Last Name
+                    </mat-error>
+                    <mat-error
+                      *ngIf="
+                        usersForm.controls.callerLastName.hasError('required')
+                      "
+                    >
+                      Last Name is Required
+                    </mat-error>
+                  </mat-form-field>
+                </p>
+                <p>
+                  <mat-form-field class="wide">
+                    <input
+                      matInput
+                      type="tel"
+                      placeholder="Enter Your Phone Number"
+                      formControlName="callerHomePhone"
+                    />
+                    <mat-error
+                      *ngIf="
+                        usersForm.controls.callerHomePhone.hasError('pattern')
+                      "
+                    >
+                      Please Enter a Valid Phone Number
+                    </mat-error>
+                    <mat-error
+                      *ngIf="
+                        usersForm.controls.callerHomePhone.hasError('required')
+                      "
+                    >
+                      Phone Number is Required
+                    </mat-error>
+                  </mat-form-field>
+                </p>
+                <p>
+                  <mat-form-field class="wide">
+                    <input
+                      matInput
+                      type="email"
+                      formControlName="callerEmail"
+                      placeholder="Email Address"
+                    />
+                    <mat-error
+                      *ngIf="usersForm.controls.callerEmail.hasError('pattern')"
+                    >
+                      Please Enter a Valid Email Address
+                    </mat-error>
+                    <mat-error
+                      *ngIf="
+                        usersForm.controls.callerEmail.hasError &&
+                        (usersForm.get('callerEmail').dirty ||
+                          usersForm.get('callerEmail').touched)
+                      "
+                    >
+                      Please Enter a Valid Email Address
+                    </mat-error>
+                  </mat-form-field>
+                </p>
+              </form>
+              <!-- <mat-progress-bar *ngIf="!isDone && submitted && !displayHttpError" class="app-progress" mode="indeterminate" -->
+              <!-- <mat-progress-bar *ngIf="submitted && !error" class="app-progress" mode="indeterminate"
+                  aria-label="Indeterminate progress-bar example"></mat-progress-bar> -->
+            </mat-card-content>
+            <mat-card-actions style="margin: 0 auto" class="map-mat-card">
+              <form
+                class="map-mat-card"
+                [formGroup]="usersForm"
+                novalidate
+                (ngSubmit)="save(usersForm.value, usersForm.valid)"
+              >
+                <button
+                  mat-raised-button
+                  color="primary"
+                  class="btn btn-success"
+                  [disabled]="!usersForm.valid"
+                >
+                  Submit
+                </button>
+              </form>
+              <span *ngIf="gisObjectId > 0" class="messageHighlightGreen"
+                ><b>Your 'Yard Waste Bin OPT-OUT' request has been taken.</b>
+              </span>
+              <span class="errorMessageSmall" style="font-size: small"
+                ><br />{{ addressNotFoundMessage }}</span
+              >
+            </mat-card-actions>
+
+            <mat-progress-bar
+              *ngIf="gisObjectId && !submitted"
+              class="app-progress"
+              color="primary"
+              mode="indeterminate"
+              aria-label="Indeterminate progress-bar example"
+            ></mat-progress-bar>
+          </mat-card>
+        </ng-container>
+      </td>
+    </tr>
+    <tr>
+      <td class="messageHighlightRed">
+        <br />
+        Effective July 5, 2022, <br />customer owned containers will no longer
+        be eligible for collection. <br />Bundles, biodegradable bags, and
+        city-issued yard waste carts will be collected on your scheduled yard
+        waste pick-up day.
+      </td>
+    </tr>
+  </table>
+</div>
