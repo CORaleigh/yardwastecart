@@ -307,7 +307,7 @@ export class AppComponent implements OnInit {
 
     ////////////////////////////////
     // const addressInput = this.usersForm.get("addressInput").value.attributes;
-    const addressInput = this.usersForm.get("addressInput").value.text;
+    const addressInput = this.usersForm.get("addressInput").value;
     console.log('At Save - addressInput: ', addressInput);
     if(addressInput){
       // this.getAddressObjectID(addressInput, model);
