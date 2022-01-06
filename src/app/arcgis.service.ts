@@ -5,6 +5,7 @@ import { catchError, map, mergeMap } from 'rxjs/operators';
 import { GeoResponse, Attribute } from './geo-response';
 import { Collectionareas, FeatureRespomse } from './collectionareas';
 import { RootObject, GeoResponseSws, SWS_NAP_ServiceResponse, tokenResponseSws, UpdateResponse } from './geo-response-sws';
+import { MarRootObject } from './mar-response';
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +17,8 @@ export class ArcgisService {
   swsLocatorUrlForUpdateYesNo = 'https://cityworksgisprd.raleighnc.gov/arcgis/rest/services/cityworks/SOLID_WASTE_SERVICES/FeatureServer/0/query';
   // swsLocatorUrl ='https://cityworksgisprd.raleighnc.gov/arcgis/rest/services/MAR_Wake_Geocoder/GeocodeServer/findAddressCandidates';
   swsLocatorUrl = 'https://maps.raleighnc.gov/arcgis/rest/services/Locators/Locator/GeocodeServer/suggest';
+  marUrl = 'https://maps.raleighnc.gov/arcgis/rest/services/Addresses/MapServer/2/query';
+  compositeLocator = 'https://maps.raleighnc.gov/arcgis/rest/services/Locators/CompositeLocator/GeocodeServer/suggest'
 
   tokenSws: string;
 
@@ -49,6 +52,18 @@ export class ArcgisService {
     }
   };
 
+
+  geocodeFromMar(address): Observable<MarRootObject> {
+    address = `ADDRESS like '${address}%'`;
+    const params = new HttpParams()
+      .append('text', address).append('f', 'json');
+
+    return this.http.get<MarRootObject>(this.marUrl, {
+      params
+    }).pipe(
+      catchError(this.handleError));
+  }
+
   geocodeRal(address): any {
     const params = new HttpParams()
       .append('Street', address).append('outSR', '2264')
@@ -76,7 +91,7 @@ export class ArcgisService {
     const params = new HttpParams()
       .append('Where', address).append('outSR', '2264').append('f', 'json').append('returnGeometry', 'true').append('outFields', '*');
 
-    return this.http.get<GeoResponseSws>(this.swsLocatorUrl, {
+    return this.http.get<GeoResponseSws>(this.swsLocatorUrlSDE, {
       params
     }).pipe(
       catchError(this.handleError));
@@ -103,6 +118,17 @@ export class ArcgisService {
       .append('text', address).append('f', 'json');
 
     return this.http.get<RootObject>(this.swsLocatorUrl, {
+      params
+    }).pipe(
+      catchError(this.handleError));
+  }
+
+  geocodeswsComposite(address): Observable<RootObject> {
+    // address = `ADDRESS like '${address}%'`;
+    const params = new HttpParams()
+      .append('text', address).append('f', 'json');
+
+    return this.http.get<RootObject>(this.compositeLocator, {
       params
     }).pipe(
       catchError(this.handleError));
