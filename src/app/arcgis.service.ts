@@ -6,6 +6,7 @@ import { GeoResponse, Attribute } from './geo-response';
 import { Collectionareas, FeatureRespomse } from './collectionareas';
 import { RootObject, GeoResponseSws, SWS_NAP_ServiceResponse, tokenResponseSws, UpdateResponse } from './geo-response-sws';
 import { MarRootObject } from './mar-response';
+import { TitleCasePipe } from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
@@ -30,12 +31,14 @@ export class ArcgisService {
   // mapsYeardwastAPIbaseurl = 'https://cityworkstest.raleighnc.gov/arcgis/rest/services/Cityworks/SOLID_WASTE_SERVICES_edit/FeatureServer/0/updateFeatures?'
   mapsYeardwastAPIbaseurl = 'https://cityworks.raleighnc.gov/arcgis/rest/services/cityworks/SOLID_WASTE_SERVICES/FeatureServer/0/updateFeatures?'
   sdeData: Observable<RootObject>;
+  // titlecasePipe: TitleCasePipe;
+  addressStr: string;
   // where=upper(address)='11920 PAWLEYS mill CIR'&outFields=*&returnGeometry=false&f=json&token=
   /*
   // NAP changes ends
   */
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private titlecasePipe:TitleCasePipe) { }
 
   private esriWorldLocatorUrl = 'http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/suggest';
   private geocodeUrl = 'https://maps.raleighnc.gov/arcgis/rest/services/Locators/CompositeLocator/GeocodeServer/findAddressCandidates';
@@ -55,8 +58,14 @@ export class ArcgisService {
 
   geocodeFromMar(address): Observable<MarRootObject> {
     address = `ADDRESS like '${address}%'`;
-    const params = new HttpParams()
-      .append('text', address).append('f', 'json');
+    this.addressStr = JSON.stringify(address);
+    this.addressStr = this.titlecasePipe.transform(this.addressStr);
+    address = JSON.parse(this.addressStr);
+    // const params = new HttpParams().append('where',this.addressStr).append('f', 'json').append('outfields', '*');
+
+    const params = new HttpParams().append('where',address).append('f', 'json').append('outfields', '*');
+
+      // .append('text', address).append('f', 'json');
 
     return this.http.get<MarRootObject>(this.marUrl, {
       params

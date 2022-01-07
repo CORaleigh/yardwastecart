@@ -87,11 +87,11 @@
                     </mat-option>
                     <ng-container *ngIf="!isLoading">
                       <mat-option
-                        *ngFor="let suggest of MarAttributes"
-                        [value]="suggest"
+                        *ngFor="let address of marSuggestions"
+                        [value]="address"
                       >
-                        <!-- <span>{{ suggest.text | titlecase }}</span> -->
-                        <span>{{ suggest.text }}</span>
+                        <span>{{ address.attributes.ADDRESS | titlecase }}</span>
+                        <!-- <span>{{ suggest.text }}</span> -->
                       </mat-option>
                       <!-- <mat-option *ngFor="let address of filteredAddresses" [value]="address">
                           <span>{{ address.attributes.ADDRESS | titlecase }}</span>

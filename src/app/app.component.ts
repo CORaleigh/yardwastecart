@@ -164,7 +164,7 @@ export class AppComponent implements OnInit {
         switchMap(value =>
           this.arcgisService.geocodeFromMar(value).pipe(
             finalize(() => {
-              // console.log('Addressvalue = ', value );
+              console.log('Addressvalue = ', value );
               this.isLoading = false;
             })
           )
@@ -249,24 +249,30 @@ export class AppComponent implements OnInit {
   //   }
   // }
 
-  displayFnOLD(address: Feature) {
+  // displayFnOLD(address: Feature) {
+  //   this.addressInValidMessage = ""; // blank when user trying - add error message only at time of submit
+  //   this.addressInValidMessageCC = ""; // blank when user trying - add error message only at time of submit
+  //   if (address) {
+  //     let titleCaseAddress = address.attributes.ADDRESS;
+  //     const titleCaseDay = address.attributes.SERVICEDAY;
+
+  //     titleCaseAddress = this.titlecasePipe.transform(titleCaseAddress);
+  //     return titleCaseAddress;
+  //   }
+  // }
+  displayFn(address: MarFeature) {
     this.addressInValidMessage = ""; // blank when user trying - add error message only at time of submit
     this.addressInValidMessageCC = ""; // blank when user trying - add error message only at time of submit
+    console.log('address from displayFn', address);
     if (address) {
       let titleCaseAddress = address.attributes.ADDRESS;
-      const titleCaseDay = address.attributes.SERVICEDAY;
+      // const titleCaseDay = address.attributes.SERVICEDAY;
 
       titleCaseAddress = this.titlecasePipe.transform(titleCaseAddress);
-      return titleCaseAddress;
-    }
-  }
-  displayFn(address: marSuggestions) {
-    this.addressInValidMessage = ""; // blank when user trying - add error message only at time of submit
-    this.addressInValidMessageCC = ""; // blank when user trying - add error message only at time of submit
-    if (address) {
+      console.log('titleCaseAddress = ', titleCaseAddress);
       // let titleCaseAddress = address.attributes.ADDRESS;
       // let titleCaseAddress = address.text;
-      let titleCaseAddress = address;
+      // let titleCaseAddress = address;
       // const titleCaseDay = address.attributes.SERVICEDAY;
 
       // titleCaseAddress = this.titlecasePipe.transform(titleCaseAddress);
@@ -313,15 +319,15 @@ export class AppComponent implements OnInit {
     ////////////////////////////////
     // const addressInput = this.usersForm.get("addressInput").value.attributes;
     // let addressInput = this.usersForm.get("addressInput").value.text;
-    let addressInput = this.usersForm.get("addressInput").value.text;
+    let addressInput = this.usersForm.get("addressInput").value;
     // console.log('At Save0 - addressInput: ', addressInput);
     // addressInput = `{ "text": ${addressInput} }`;
     // console.log('At Save1 - addressInput: ', `{ "text": ${addressInput} }`);
 
-    if (typeof(addressInput === 'string')) {
-      addressInput = JSON.parse(`{ "text": ${addressInput} }`);
-    }
-    console.log('At Save2 - addressInput: ', addressInput);
+    // if (typeof(addressInput === 'string')) {
+    //   addressInput = JSON.parse(`{ "text": ${addressInput} }`);
+    // }
+    // console.log('At Save2 - addressInput: ', addressInput);
     if(addressInput){
       // this.getAddressObjectID(addressInput, model);
       console.info('address for ObjId='+addressInput);
