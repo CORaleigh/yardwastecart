@@ -20,6 +20,7 @@ import { EmailTemplate } from './Emails/EmailTemplate';
 import { IntegrationService } from './integration.service';
 import { Observable } from "rxjs";
 import { MarAttributes, MarFeature } from "./mar-response";
+import { UserInputIntfce } from "./UserInputIntfce";
 
 @Component({
   selector: "app-root",
@@ -84,6 +85,8 @@ export class AppComponent implements OnInit {
   isMobile: boolean = false;
   foundNAPrecord: boolean;
   allData: unknown;
+  addressInput: string;
+  addressInput2: UserInputIntfce;
 
   constructor(
     private _dialog: MatDialog,
@@ -319,7 +322,7 @@ export class AppComponent implements OnInit {
     ////////////////////////////////
     // const addressInput = this.usersForm.get("addressInput").value.attributes;
     // let addressInput = this.usersForm.get("addressInput").value.text;
-    let addressInput = this.usersForm.get("addressInput").value;
+    this.addressInput = this.usersForm.get("addressInput").value;
     // console.log('At Save0 - addressInput: ', addressInput);
     // addressInput = `{ "text": ${addressInput} }`;
     // console.log('At Save1 - addressInput: ', `{ "text": ${addressInput} }`);
@@ -328,24 +331,35 @@ export class AppComponent implements OnInit {
     //   addressInput = JSON.parse(`{ "text": ${addressInput} }`);
     // }
     // console.log('At Save2 - addressInput: ', addressInput);
-    if(addressInput){
+    if(this.addressInput){
       // this.getAddressObjectID(addressInput, model);
-      console.info('address for ObjId='+addressInput);
-      const adrArray = addressInput.split(',');
-      const addStreet = adrArray[0];
-      console.info('address-Street for ObjId='+addStreet);
+      console.log('typof is here ---- ',typeof(this.addressInput));
+      console.info('address for ObjId='+this.addressInput);
+      console.info('address for ObjId='+this.addressInput);
+      if (typeof(this.addressInput === 'string')) {
+        this.addressInput = JSON.parse(`{"ADDRESS":"${this.addressInput}"}`); 
+        // this.addressInput = JSON.parse('{ "ADDRESS":'+${this.addressInput}+' }');
+        // this.addressInput2.ADDRESS = this.addressInput;
+      }
+      console.log('typof is here ----addressInput ',typeof(this.addressInput));
+      // console.log('typof is here ----addressInput2 ',typeof(this.addressInput2));
+      // console.log('typof is here ----addressInput2.ADDRESS ',typeof(this.addressInput2.ADDRESS));
+      // const adrArray = addressInput.split(',');
+      // const addStreet = adrArray[0];
+      // console.info('address-Street for ObjId='+addStreet);
 
-      this.arcgisService.getObjIdBasedOnStreetAdd(addStreet).subscribe(
+      // this.arcgisService.getObjIdBasedOnStreetAdd(addStreet).subscribe(
+      this.arcgisService.getObjIdBasedOnStreetAdd(this.addressInput).subscribe(
       FeatureRespomse => {
           if (FeatureRespomse.features.length === 0) {
-            const comment = `This address was not found in the RALEIGH.SWS_COLLECTIONS GIS data: ${addressInput}`;
-            this.createCWAddressWrongTicket(addressInput, comment, model);
+            const comment = `This address was not found in the RALEIGH.SWS_COLLECTIONS GIS data: ${this.addressInput}`;
+            this.createCWAddressWrongTicket(this.addressInput, comment, model);
             // this.addressNotFoundMessage ='The address you entered does not appear to be within the Raleigh Solid Waste service area, we will investigate and contact you if necessary.';
             this.addressNotFoundMessage ='';
 
           } else if (FeatureRespomse.features.length > 1) {
-            const comment = `Multiple addresses were matched in the RALEIGH.SWS_COLLECTION GIS data: ${addressInput}`;
-            this.createCWAddressWrongTicket(addressInput, comment, model);
+            const comment = `Multiple addresses were matched in the RALEIGH.SWS_COLLECTION GIS data: ${this.addressInput}`;
+            this.createCWAddressWrongTicket(this.addressInput, comment, model);
             // this.addressNotFoundMessage ='The address you entered does not appear to be within the Raleigh Solid Waste service area, we will investigate and contact you if necessary.';
             this.addressNotFoundMessage ='';
           } else {
@@ -358,7 +372,7 @@ export class AppComponent implements OnInit {
     // if(this.gisObjectId > 0) {
           console.log('Address Valid');
           this.addressObjectId = ''+this.gisObjectId;
-          const addressInputArray = addressInput.split(','); // 1413 Dellwood Dr, Raleigh, NC, 27607
+          const addressInputArray = this.addressInput.split(','); // 1413 Dellwood Dr, Raleigh, NC, 27607
           console.info('address-Street for inputs='+addressInputArray[0]);
           // this.updateResponse = this.arcgisService.callYardwase_Update_Service(this.addressObjectId);
           // console.info("callYardwase_Update_Service--updateResponses= " + updateResponses);
@@ -480,11 +494,16 @@ export class AppComponent implements OnInit {
   }
 
   createCWAddressWrongTicket(addressInput: string, comment: string, model: any) {
-      console.log('I am in new-logic-2 to create SR > createCWAddressWrongTicket');
-      const addressInputArray = addressInput.split(','); // 2451 Carriage Oaks Dr, Raleigh, NC, 27614
+      // console.log('I am in new-logic-2 to create SR > createCWAddressWrongTicket');
+      // const addressInputArray = addressInput.split(','); // 2451 Carriage Oaks Dr, Raleigh, NC, 27614
       const request = new CityworksSrRequest();
-      request.address = addressInputArray[0];
-      request.callerCity = addressInputArray[1];
+      // request.address = addressInputArray[0];
+      // request.callerCity = addressInputArray[1];
+      request.address = addressInput;
+      console.log("request.address is ", request.address);
+      // request.callerCity = 'addressInputArray[1];'
+      request.callerCity = '';
+
       request.callerEmail = model.callerEmail;
       request.callerHomePhone = model.callerHomePhone;
       request.callerFirstName = model.callerFirstName;
@@ -510,7 +529,7 @@ export class AppComponent implements OnInit {
         err => (this.error = err)
       );
       // call to sent email to City person
-      this.sentEmailTemplate(addressInput, comment, model);
+      // this.sentEmailTemplate(addressInput, comment, model);
   }
 
   openDialog(page: string) {
